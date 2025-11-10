@@ -1,0 +1,51 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test Output
+test-output/
+target/
+*.log
+logs/
+
+# Reports
+allure-results/
+extent-reports/
+screenshots/
+
+# Node modules (if using Appium with npm)
+node_modules/
+
+# App files
+*.apk
+*.ipa
+*.app
+
+# Temporary files
+*.tmp
+*.temp
+*~

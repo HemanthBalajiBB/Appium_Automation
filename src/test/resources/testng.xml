@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Appium Mobile Automation Suite" verbose="1">
+    
+    <!-- Simple Login Test -->
+    <test name="Android Login Test" preserve-order="true">
+        <parameter name="platform" value="Android"/>
+        
+        <classes>
+            <class name="com.automation.tests.LoginTest"/>
+        </classes>
+    </test>
+    
+    <!-- iOS Tests (uncomment when needed) -->
+    <!--
+    <test name="iOS Tests" preserve-order="true">
+        <parameter name="platform" value="iOS"/>
+        
+        <classes>
+            <class name="com.automation.tests.LoginTest"/>
+        </classes>
+    </test>
+    -->
+    
+    <!-- Parallel execution example (uncomment when needed) -->
+    <!--
+    <test name="Parallel Android Tests" parallel="classes" thread-count="2">
+        <parameter name="platform" value="Android"/>
+        
+        <classes>
+            <class name="com.automation.tests.LoginTest"/>
+        </classes>
+    </test>
+    -->
+    
+</suite>
