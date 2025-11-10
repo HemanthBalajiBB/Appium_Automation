@@ -43,4 +43,4 @@ Simple mobile app testing framework using Appium + Java. Tests login functionali
 - **Appium not found**: Make sure you ran `npm install -g appium`
 - **Test fails**: Ensure emulator is fully loaded before running test
 
-That's it! Simple mobile automation testing framework ready to use.
+Simple mobile automation testing framework ready to use.

@@ -1,6 +1,3 @@
-#!/usr/bin/env pwsh
-# Appium Server Management Script
-
 param(
     [Parameter(Mandatory=$true)]
     [ValidateSet("start", "stop", "status", "restart")]
@@ -8,76 +5,69 @@ param(
 )
 
 function Start-AppiumServer {
-    Write-Host "🚀 Starting Appium Server..." -ForegroundColor Green
+    Write-Host "Starting Appium Server..."
     
-    # Check if already running
     $existing = Get-Process | Where-Object {$_.ProcessName -eq "node" -and $_.CommandLine -like "*appium*"}
     if ($existing) {
-        Write-Host "⚠️  Appium server is already running on PID: $($existing.Id)" -ForegroundColor Yellow
+        Write-Host "Appium server already running on PID: $($existing.Id)"
         return
     }
     
-    # Start Appium server
     Start-Process -WindowStyle Normal -FilePath "appium" -ArgumentList "--address", "127.0.0.1", "--port", "4723"
     Start-Sleep -Seconds 3
     
-    # Verify it started
     $running = netstat -an | findstr "4723"
     if ($running) {
-        Write-Host "✅ Appium server started successfully on http://127.0.0.1:4723" -ForegroundColor Green
+        Write-Host "Appium server started on http://127.0.0.1:4723"
     } else {
-        Write-Host "❌ Failed to start Appium server" -ForegroundColor Red
+        Write-Host "Failed to start Appium server"
     }
 }
 
 function Stop-AppiumServer {
-    Write-Host "🛑 Stopping Appium Server..." -ForegroundColor Yellow
+    Write-Host "Stopping Appium Server..."
     
     $processes = Get-Process | Where-Object {$_.ProcessName -eq "node"}
     if ($processes) {
         $processes | Stop-Process -Force
-        Write-Host "✅ Appium server stopped" -ForegroundColor Green
+        Write-Host "Appium server stopped"
     } else {
-        Write-Host "ℹ️  No Appium server processes found" -ForegroundColor Blue
+        Write-Host "No Appium server processes found"
     }
 }
 
 function Get-AppiumStatus {
-    Write-Host "📊 Checking Appium Server Status..." -ForegroundColor Blue
+    Write-Host "Checking Appium Server Status..."
     
-    # Check if port is listening
     $portCheck = netstat -an | findstr "4723"
     if ($portCheck) {
-        Write-Host "✅ Appium server is RUNNING on port 4723" -ForegroundColor Green
-        Write-Host "   Server URL: http://127.0.0.1:4723" -ForegroundColor Gray
+        Write-Host "Appium server is running on port 4723"
+        Write-Host "Server URL: http://127.0.0.1:4723"
     } else {
-        Write-Host "❌ Appium server is NOT running" -ForegroundColor Red
+        Write-Host "Appium server is not running"
     }
     
-    # Check for node processes
     $nodeProcesses = Get-Process | Where-Object {$_.ProcessName -eq "node"}
     if ($nodeProcesses) {
-        Write-Host "📋 Node.js processes:" -ForegroundColor Blue
+        Write-Host "Node.js processes:"
         $nodeProcesses | ForEach-Object {
-            Write-Host "   PID: $($_.Id) | Memory: $([math]::Round($_.WorkingSet64/1MB, 2))MB" -ForegroundColor Gray
+            Write-Host "  PID: $($_.Id) | Memory: $([math]::Round($_.WorkingSet64/1MB, 2))MB"
         }
     }
     
-    # Check connected devices
-    Write-Host "📱 Connected Android Devices:" -ForegroundColor Blue
+    Write-Host "Connected Android Devices:"
     try {
         $devices = adb devices 2>$null
         if ($devices) {
-            Write-Host $devices -ForegroundColor Gray
+            Write-Host $devices
         } else {
-            Write-Host "   ⚠️  ADB not found or no devices connected" -ForegroundColor Yellow
+            Write-Host "  ADB not found or no devices connected"
         }
     } catch {
-        Write-Host "   ⚠️  ADB not available (Android SDK not installed)" -ForegroundColor Yellow
+        Write-Host "  ADB not available"
     }
 }
 
-# Main execution
 switch ($Action) {
     "start" { Start-AppiumServer }
     "stop" { Stop-AppiumServer }
